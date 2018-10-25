@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-mongoose.connect('mongodb://ds141633.mlab.com:41633/apidriver', (err, res)=>{
+mongoose.connect('mongodb://admin:Alpha567@ds141633.mlab.com:41633/apidriver', (err, res)=>{
     if(err) throw err;
     console.log('established connection');
 });
