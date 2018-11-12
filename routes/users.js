@@ -3,6 +3,7 @@ const mongoose = require('../config/connection');
 
 const userController = require('../controllers/users');
 const vehicleController = require('../controllers/vehicle');
+const placeController = require('../controllers/place'); 
 const auth = require('../middlewares/auth'); 
 
 const router = express.Router();
@@ -15,7 +16,11 @@ router.get('/', function (req, res, next) {
 
 router.get('/locations', userController.findLocation);
 
+router.get('/place', placeController.findPlace);
+
 router.post('/sign-up', userController.signUp);
+
+router.post('/place', placeController.createPlace);
 
 router.post('/sign-in', userController.signIn);
 

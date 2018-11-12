@@ -25,12 +25,57 @@ var io = require('socket.io')(server);
 // connection socket
 io.on('connection', function(socket){
   console.log('a user connected');
-  socket.emit('messages', {
-    id: 1,
-    text: 'Soy un nuevo message',
-    author: 'Jheysser Machacon'
+  socket.broadcast.emit('newclientconnect', {
+    description: 'Nuevo usuario conectado',
   });
+
+socket.on('disconnect', function () {
+    socket.broadcast.emit('newclientconnect',{ 
+      description: 'Usuario desconectado'})
 });
+
+socket.on('active', function(data){
+  console.log(data._id);
+
+    socket.broadcast.emit('activeSays', {
+      _id: data._id,
+      name_completed: data.name_completed,
+      location: {lat: data.ubication.lat, lng: data.ubication.lng}
+    });
+});
+
+socket.on('inactive', function(data){
+    socket.broadcast.emit('inactiveSays', {
+       _id: data._id,
+      name_completed: data.name_completed,
+      location: {lat: data.ubication.lat, lng: data.ubication.lng}
+    });
+});
+
+socket.on('solicitarVehicle', function(data){
+  socket.broadcast.emit('ClientsolicitandoVehicle', {
+     _id: data._id,
+      name_completed: data.name,
+      destination: data.destination,
+      origin: data.origin,
+      location: data.location,
+      description: data.description
+    });
+});
+
+socket.on('usuarioAceptado', function(data){
+  socket.broadcast.emit('driverAcepto', {
+     _id: data._id,
+      name_completed: data.name,
+      id: data.id,
+      location: data.location,
+      description: data.description
+    });
+});
+
+});
+
+
 
 
 /**

@@ -19,19 +19,17 @@ const userSchema = new Schema({
     },
     profile_photo: {
         type: String, 
-        default: 'images/user/default.png'},
+        default: 'images/default.png'},
     temporal: {
         type: Boolean, 
         default: true
     },
     rol: {
         type:String,  
-        enum: ['user', 'driver'], 
-        default: 'user'
+        enum: ['user', 'driver']
     },
     vehicle: {
         id_motorcycle:String,
-        
         photos:{
             left: String,
             right: String,
