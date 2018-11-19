@@ -37,11 +37,18 @@ const userSchema = new Schema({
             rear: String
         }
     },
+    calificacion:[califications],
     location: {
         lat: Number,
         lng: Number
-    }
+    },
     
+    
+});
+
+var califications = new mongoose.Schema({
+    content: String,
+    created: {type: Date, default:Date.now}
 });
 
 module.exports = mongoose.model('User', userSchema);
