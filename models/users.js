@@ -40,7 +40,7 @@ const userSchema = new Schema({
             rear: String
         }
     },
-   // calificacion: [],
+    calificacion: [],
     location: {
         lat: Number,
         lng: Number
