@@ -1,6 +1,9 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
+const califications = new mongoose.Schema({
+    content: String,
+});
 const userSchema = new Schema({
     active: {
         type: Boolean,
@@ -37,7 +40,7 @@ const userSchema = new Schema({
             rear: String
         }
     },
-    calificacion:[califications],
+    calificacion: [],
     location: {
         lat: Number,
         lng: Number
@@ -46,9 +49,6 @@ const userSchema = new Schema({
     
 });
 
-var califications = new mongoose.Schema({
-    content: String,
-    created: {type: Date, default:Date.now}
-});
+
 
 module.exports = mongoose.model('User', userSchema);
