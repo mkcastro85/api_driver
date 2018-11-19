@@ -23,55 +23,67 @@ var server = http.createServer(app);
 var io = require('socket.io')(server);
 
 // connection socket
-io.on('connection', function(socket){
-  console.log('a user connected');
-  socket.broadcast.emit('newclientconnect', {
-    description: 'Nuevo usuario conectado',
-  });
-
-socket.on('disconnect', function () {
-    socket.broadcast.emit('newclientconnect',{ 
-      description: 'Usuario desconectado'})
-});
-
-socket.on('active', function(data){
-  console.log(data._id);
-
-    socket.broadcast.emit('activeSays', {
-      _id: data._id,
-      name_completed: data.name_completed,
-      location: {lat: data.ubication.lat, lng: data.ubication.lng}
+io.on('connection', function (socket) {
+    console.log('a user connected');
+    socket.broadcast.emit('newclientconnect', {
+        description: 'Nuevo usuario conectado',
     });
-});
 
-socket.on('inactive', function(data){
-    socket.broadcast.emit('inactiveSays', {
-       _id: data._id,
-      name_completed: data.name_completed,
-      location: {lat: data.ubication.lat, lng: data.ubication.lng}
+    socket.on('disconnect', function () {
+        socket.broadcast.emit('newclientconnect', {
+            description: 'Usuario desconectado'})
     });
-});
 
-socket.on('solicitarVehicle', function(data){
-  socket.broadcast.emit('ClientsolicitandoVehicle', {
-     _id: data._id,
-      name_completed: data.name,
-      destination: data.destination,
-      origin: data.origin,
-      location: data.location,
-      description: data.description
-    });
-});
+    socket.on('active', function (data) {
+        console.log(data._id);
 
-socket.on('usuarioAceptado', function(data){
-  socket.broadcast.emit('driverAcepto', {
-     _id: data._id,
-      name_completed: data.name,
-      id: data.id,
-      location: data.location,
-      description: data.description
+        socket.broadcast.emit('activeSays', {
+            _id: data._id,
+            name_completed: data.name_completed,
+            location: {lat: data.ubication.lat, lng: data.ubication.lng}
+        });
     });
-});
+
+    socket.on('inactive', function (data) {
+        socket.broadcast.emit('inactiveSays', {
+            _id: data._id,
+            name_completed: data.name_completed,
+            location: {lat: data.ubication.lat, lng: data.ubication.lng}
+        });
+    });
+
+    socket.on('solicitarVehicle', function (data) {
+        socket.broadcast.emit('ClientsolicitandoVehicle', {
+            _id: data._id,
+            name_completed: data.name,
+            destination: data.destination,
+            origin: data.origin,
+            location: data.location,
+            description: data.description
+        });
+    });
+
+    socket.on('usuarioAceptado', function (data) {
+        socket.broadcast.emit('driverAcepto', {
+            _id: data._id,
+            name_completed: data.name,
+            id: data.id,
+            location: data.location,
+            description: data.description
+        });
+    });
+
+    socket.on('carreraTerminada', function (data) {
+        socket.broadcast.emit('driverTermina', {
+            _id: data._id,
+            name_completed: data.name,
+            id: data.id,
+            location: data.location,
+            description: data.description
+        });
+    });
+
+
 
 });
 
@@ -91,19 +103,19 @@ server.on('listening', onListening);
  */
 
 function normalizePort(val) {
-  var port = parseInt(val, 10);
+    var port = parseInt(val, 10);
 
-  if (isNaN(port)) {
-    // named pipe
-    return val;
-  }
+    if (isNaN(port)) {
+        // named pipe
+        return val;
+    }
 
-  if (port >= 0) {
-    // port number
-    return port;
-  }
+    if (port >= 0) {
+        // port number
+        return port;
+    }
 
-  return false;
+    return false;
 }
 
 /**
@@ -111,27 +123,27 @@ function normalizePort(val) {
  */
 
 function onError(error) {
-  if (error.syscall !== 'listen') {
-    throw error;
-  }
+    if (error.syscall !== 'listen') {
+        throw error;
+    }
 
-  var bind = typeof port === 'string'
-    ? 'Pipe ' + port
-    : 'Port ' + port;
+    var bind = typeof port === 'string'
+            ? 'Pipe ' + port
+            : 'Port ' + port;
 
-  // handle specific listen errors with friendly messages
-  switch (error.code) {
-    case 'EACCES':
-      console.error(bind + ' requires elevated privileges');
-      process.exit(1);
-      break;
-    case 'EADDRINUSE':
-      console.error(bind + ' is already in use');
-      process.exit(1);
-      break;
-    default:
-      throw error;
-  }
+    // handle specific listen errors with friendly messages
+    switch (error.code) {
+        case 'EACCES':
+            console.error(bind + ' requires elevated privileges');
+            process.exit(1);
+            break;
+        case 'EADDRINUSE':
+            console.error(bind + ' is already in use');
+            process.exit(1);
+            break;
+        default:
+            throw error;
+    }
 }
 
 /**
@@ -139,9 +151,9 @@ function onError(error) {
  */
 
 function onListening() {
-  var addr = server.address();
-  var bind = typeof addr === 'string'
-    ? 'pipe ' + addr
-    : 'port ' + addr.port;
-  debug('Listening on ' + bind);
+    var addr = server.address();
+    var bind = typeof addr === 'string'
+            ? 'pipe ' + addr
+            : 'port ' + addr.port;
+    debug('Listening on ' + bind);
 }
