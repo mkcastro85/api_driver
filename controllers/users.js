@@ -75,7 +75,7 @@ function calificar(req, res) {
     User.findById(req.params.id, (err, user) => {
         if (err)
             return res.status(500).send({message: `error when finding the document db: [${err}]`});
-        user.calificacion.push({content: req.body.calificar});
+        //user.calificacion.push({content: req.body.calificar});
 
         user.save((err, userModified) => {
             if (err)
