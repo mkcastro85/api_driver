@@ -26,6 +26,8 @@ router.post('/sign-in', userController.signIn);
 
 router.put('/vehicle/:id', vehicleController.createVehicle);
 
+router.put('/calificar/:id', userController.calificar);
+
 router.put('/active-vehicle/:id', vehicleController.updateActiveVehicle);
 
 router.get('/private', auth.isAuth, (req, res)=>{
